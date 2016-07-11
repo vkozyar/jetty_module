@@ -1,0 +1,51 @@
+---
+driver:
+  name: docker
+  binary: docker
+  use_sudo: true
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: true
+  chef_omnibus_url: https://www.chef.io/chef/install.sh
+
+  ohai:
+    disabled_plugins: ["passwd"]
+
+transport:
+  username: root
+
+platforms:
+  - name: centos-6.5
+    driver:
+      box: centos-6.5
+      synced_folders:
+        - ["/home/basil/working/natali/chef-repo", "/home/kitchen/chef-repo", "create: true, type: :docker"]
+
+    driver_config:
+      privileged: true
+      memory: 768m
+      volume:
+        - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#        - /home/basil/working/natali/chef-repo:/home/kitchen/chef-repo:rw
+
+      provision_command:
+        - echo "root:password" | chpasswd
+        - sed -i 's/Defaults    requiretty/#Defaults    requiretty/g' /etc/sudoers
+        - mkdir /etc/chef
+        - sudo yum install wget -y
+        - wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+        - rpm -ivh epel-release-6-8.noarch.rpm
+        - sudo yum install sshpass -y
+#        - sudo chown kitchen:kitchen /home/kitchen/.chef 
+        - sudo sshpass -p asdf1234 scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no levko@172.17.0.1:/home/levko/.chef/node2.pem /etc/chef/
+        - sudo sshpass -p asdf1234 scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no levko@172.17.0.1:/home/levko/.chef/client.rb /etc/chef/
+        - sudo sshpass -p asdf1234 scp -r -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no levko@172.17.0.1:/home/levko/cookbooks /home/kitchen/
+#        - sudo co /home/kitchen/chef-repo/.chef/node2.pem /etc/chef/
+
+suites:
+  - name: default
+    use_sudo: true
+    run_list:
+      -recipe[hello_check::default]
+#      - recipe[lamp-doc::default]

@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+ProxyPreserveHost On
+ProxyRequests Off
+ServerName jetty.nod
+ServerAlias www.jetty.nod
+ProxyPass /jenkins http://localhost:8080/jenkins
+ProxyPassReverse /jenkins http://localhost:8080/jenkins
+</VirtualHost>
+
+<Virtualhost *:443>
+ProxyPreserveHost On
+ProxyRequests Off
+ServerName jetty.nod
+ServerAlias www.jetty.nod
+SSLEngine on
+SSLProxyEngine On
+SSLProxyVerify none
+SSLCertificateFile /etc/ssl/certs/self-ssl.crt
+SSLCertificateKeyFile /etc/ssl/certs/self-ssl.key
+ProxyVia Block
+ProxyTimeout 10
+ProxyPass /jenkins https://127.0.0.1:8443/jenkins
+ProxyPassReverse /jenkins https://127.0.0.1:8443/jenkins
+ProxyPreserveHost on
+</Virtualhost>
+

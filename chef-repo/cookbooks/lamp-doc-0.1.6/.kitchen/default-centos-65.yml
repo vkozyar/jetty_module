@@ -1,0 +1,7 @@
+---
+ssh_key: "/home/basil/working/natali/chef-repo/cookbooks/lamp-doc-0.1.6/.kitchen/docker_id_rsa"
+image_id: c83c2d7eef0d
+container_id: 6852329310b9e92d1805a2991ac3942806443dd5618f6e188f3003612ebaf14e
+hostname: localhost
+port: 32806
+last_action: converge

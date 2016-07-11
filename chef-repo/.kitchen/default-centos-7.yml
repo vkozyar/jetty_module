@@ -1,0 +1,7 @@
+---
+ssh_key: "/home/basil/working/natali/chef-repo/.kitchen/docker_id_rsa"
+image_id: 4a52017eb9dc
+container_id: 216f09d1ddd93b0f011f57bbd119ad253572f1d86a924b296b643fbf80a68968
+hostname: localhost
+port: 32768
+last_action: create

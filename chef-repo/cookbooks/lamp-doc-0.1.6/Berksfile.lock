@@ -1,0 +1,18 @@
+DEPENDENCIES
+  lamp-doc
+    path: .
+    metadata: true
+  mysql
+
+GRAPH
+  lamp-doc (0.1.6)
+    mysql (~> 6.0.31)
+  mysql (6.0.31)
+    smf (>= 0.0.0)
+    yum-mysql-community (>= 0.0.0)
+  rbac (1.0.3)
+  smf (2.2.8)
+    rbac (>= 1.0.1)
+  yum (3.11.0)
+  yum-mysql-community (0.2.0)
+    yum (>= 3.2)
